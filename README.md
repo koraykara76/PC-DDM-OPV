@@ -102,7 +102,7 @@ python Pc_ddm_opv_github_ready.py
 
  A J–V plot comparing measured data, classical DDM, and PC-DDM is displayed.
 
-##Intended Use
+## Intended Use
 
 This code is intended for:
 
@@ -114,13 +114,13 @@ Methodological studies on diode-model fitting
 
 Supporting information (SI) and reproducible research workflows
 
-##Author
+## Author
 
 Koray Kara
 Physics / Device Modeling
 Organic & Perovskite Photovoltaics
 
-##License
+## License
 
 This project is provided for research and educational purposes.
 Please cite appropriately if used in academic work.
@@ -131,5 +131,6 @@ Please cite appropriately if used in academic work.
 
 *Measured J–V data (red), classical double-diode model (green),
 and refined PC-DDM fit (black).*
+
 
 
