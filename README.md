@@ -133,5 +133,11 @@ Please cite appropriately if used in academic work.
 and refined PC-DDM fit (black).*
 
 
+## How to Cite
+
+If you use this code in academic work, please cite:
+
+K. Kara, *Physically Constrained Double-Diode Modeling for OPV and Perovskite Devices*, GitHub repository, 2025.
+
 
 
