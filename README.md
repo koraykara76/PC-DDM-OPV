@@ -95,7 +95,7 @@ Run the script directly:
 
 ```bash
 python Pc_ddm_opv_github_ready.py
-
+```
  Select a .dat file when prompted.
 
  Fitted parameters are printed to the terminal.
@@ -131,6 +131,7 @@ Please cite appropriately if used in academic work.
 
 *Measured J–V data (red), classical double-diode model (green),
 and refined PC-DDM fit (black).*
+
 
 
 
