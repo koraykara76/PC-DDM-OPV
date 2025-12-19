@@ -127,5 +127,8 @@ Please cite appropriately if used in academic work.
 
 ## Example J–V Fit
 
-![Example J–V fit using PC-DDM](figures/jv_fit_example.png)
+![Example J–V fit using PC-DDM](jv_fit_example.PNG)
+
+*Measured J–V data (red), classical double-diode model (green),
+and refined PC-DDM fit (black).*
 
