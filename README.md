@@ -96,14 +96,18 @@ python PC_DDM_github_ready_v2.py
 
 ---
 
-## Output Plot
+## Example Output
 
-The generated J–V figure shows:
-- **Measured J–V data** (open symbols)
-- **RAI-DDM fit** (analytical initialization only, no refinement)
-- **PC-DDM fit** (physically constrained refined result)
+The figure below shows a representative PC-DDM fit for an HB50:PCBM device.
 
-The comparison illustrates how PC-DDM improves agreement with measured data particularly in the post-V_oc high-voltage region where transport-limited behaviour and non-ideal recombination dominate.
+![PC-DDM example fit](jv_fit_example.png)
+
+**Legend:**
+- Open symbols: Measured J–V data (HB50:PCBM)
+- Red line: PC-DDM fit (physically constrained, n₁=1 fixed)
+- Green line: RAI-DDM fit (Şentürk initialization only, no refinement)
+
+The comparison illustrates how the PC-DDM constrained refinement corrects the systematic deviations left by the RAI-DDM fit, particularly in the post-V_oc high-voltage region where transport-related losses and non-ideal recombination effects dominate.
 
 ---
 
