@@ -110,6 +110,27 @@ The figure below shows a representative PC-DDM fit for an HB50:PCBM device.
 The comparison illustrates how the PC-DDM constrained refinement corrects the systematic deviations left by the RAI-DDM fit, particularly in the post-V_oc high-voltage region where transport-related losses and non-ideal recombination effects dominate.
 
 ---
+## Repository Contents
+
+- `Pc_ddm_opv_github_ready.py` → Main PC-DDM fitting code
+- `requirements.txt` → Required Python packages
+- `50 1-4.dat` → Example HB50:PCBM (1:4) J–V dataset
+- `75 1-4.dat` → Example HB75:PCBM (1:4) J–V dataset
+- `jv_fit_example.png` → Example fitting result
+
+---
+## Example Data
+
+Two representative OPV J–V datasets are included for demonstration and reproducibility purposes.
+
+| File | Device |
+|--------|--------|
+| 50 1-4.dat | HB50:PCBM (1:4) |
+| 75 1-4.dat | HB75:PCBM (1:4) |
+
+These files can be directly loaded into the PC-DDM code to reproduce the fitting workflow described in the companion manuscript.
+
+---
 
 ## Intended Use
 
