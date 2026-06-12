@@ -126,7 +126,8 @@ This code is intended for:
 **Koray Kara**  
 Physics / Device Modeling  
 Organic Photovoltaics  
-İzmir Katip Çelebi University
+İzmir Katip Çelebi University , Graphene Research and Application Center - İzmir / TURKEY
+Helmholtz Zentrum Berlin , HySprint - Berlin / GERMANY
 
 ---
 
@@ -134,7 +135,7 @@ Organic Photovoltaics
 
 If you use this code in academic work, please cite the companion paper:
 
-> K. Kara, *Physically Constrained Double-Diode Modeling of Organic Solar Cells: Linking OFET Charge-Transport Fingerprints to Photovoltaic Loss Mechanisms*, Solar Energy Materials and Solar Cells (submitted, 2025).
+> K. Kara, *Physically Constrained Double-Diode Modeling of Organic Solar Cells: Linking OFET Charge-Transport Fingerprints to Photovoltaic Loss Mechanisms*, Solar Energy Materials and Solar Cells (submitted, 2026).
 
 ---
 
