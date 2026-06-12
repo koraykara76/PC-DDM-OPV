@@ -87,7 +87,7 @@ Lines starting with `#` or `%` are ignored.
 ## Usage
 
 ```bash
-python PC_DDM_github_ready_v2.py
+python Pc_ddm_opv_github_ready.py
 ```
 
 - Select a `.dat` file when prompted
