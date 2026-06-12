@@ -277,9 +277,9 @@ def fit_rai_ddm_initialization(V, I, T=T_DEFAULT, Ns=NS_DEFAULT):
     Isc, Voc, Imp, Vmp = extract_keypoints(V, I)
     print(f"\nKeypoints (measured): Jsc={Isc: .4e}, Voc={Voc: .4e}, Jmp={Imp: .4e}, Vmp={Vmp: .4e}")
 
-    n1_values = [1.0, 1.2, 1.4, 1.6]
-    n2_values = [2.0, 2.4, 2.8, 3.2]
-    X_values  = np.arange(0.8, 1.21, 0.05)
+    n1_values = [1.0, 1.2, 1.5]
+    n2_values = [1.5, 2.0, 2.5, 3.0, 3.5]
+    X_values  = [0.8, 0.9, 1.0, 1.1, 1.2]
     Y_values  = [0.5, 1.0, 1.5, 2.0]
 
     best_cost = np.inf
@@ -679,4 +679,3 @@ if __name__ == "__main__":
     plt.legend()
     plt.tight_layout()
     plt.show()
-
