@@ -1,143 +1,139 @@
-# PC-DDM: Physically Constrained Double-Diode Modeling for OPV / Perovskite Devices
+# PC-DDM: Physically Constrained Double-Diode Modeling for OPV Devices
 
-This repository contains a Python implementation of a **physically constrained double-diode model (PC-DDM)** for the analysis of current–voltage (J–V) characteristics of organic and perovskite solar cells.
+This repository contains a Python implementation of the **Physically Constrained Double-Diode Model (PC-DDM)** for the analysis of current–voltage (J–V) characteristics of organic photovoltaic (OPV) devices.
 
-The code is designed for **transparent, reproducible, and publication-ready device modeling**, with a clear separation between classical analytical initialization and nonlinear parameter refinement.
+The code is designed for **transparent, reproducible, and publication-ready device modeling**, with a clear separation between the RAI-DDM analytical initialization step and the PC-DDM constrained nonlinear refinement step.
+
+---
+
+## Methodology
+
+### Step 1: RAI-DDM Initialization
+An initial parameter set is obtained using the **RAI-DDM scheme** — a recursive analytical initialization based on Şentürk's formulation, using measurable keypoints (J_sc, V_oc, V_mp, J_mp) to generate physically bounded starting estimates.
+
+### Step 2: PC-DDM Constrained Refinement
+All parameters except n₁ are refined simultaneously using **physically constrained nonlinear least-squares optimization** under explicit physical bounds.
+
+**Key methodological choices:**
+
+| Choice | Value | Rationale |
+|--------|-------|-----------|
+| n₁ (diffusion-diode ideality) | **Fixed = 1.0** | When n₁ is free, pronounced parameter compensation occurs. Robustness test: 4/5 devices converge to n₁=1.0 when allowed to vary in [1.0, 1.8]. |
+| n₂ upper bound | **10.0** | Identifiability analysis confirmed a stable interior minimum at n₂ ≈ 8.2–8.3; bound of 10.0 is non-constraining. |
+| Residual weighting | **Post-V_oc region** | w(V) = 1 + 4·clip((V − 0.7·V_oc)/(V_max − 0.7·V_oc), 0, 1) — emphasizes the high-voltage regime where Rs, n₂, J₀₂ are most identifiable. |
+| Multi-start | **50 starts** | Ensures convergence to global minimum. |
 
 ---
 
 ## Features
 
-- Reads **simple two-column `.dat` files** containing voltage (V) and current density (J).
+- Reads simple two-column `.dat` files containing voltage (V) and current density (J, mA/cm²)
 - Extracts key photovoltaic points:
-  - Short-circuit current (Isc)
-  - Open-circuit voltage (Voc)
-  - Maximum power point (Imp, Vmp)
-- Computes an **initial parameter set** using a classical analytical double-diode method.
-- Performs **physically constrained nonlinear least-squares refinement (PC-DDM)**.
-- Simultaneously optimizes all double-diode parameters:
-  - IL, I01, I02, Rs, Rsh, n1, n2
-- Compares:
-  - Measured J–V data
-  - Classical DDM initialization
-  - Refined PC-DDM result
-- Outputs all fitted parameters **to the console only**.
-- Generates **publication-quality J–V plots**.
+  - Short-circuit current density (J_sc)
+  - Open-circuit voltage (V_oc)
+  - Maximum power point (J_mp, V_mp)
+- Computes RAI-DDM initial parameter set using Şentürk's recursive analytical scheme
+- Performs PC-DDM physically constrained nonlinear least-squares refinement
+- Optimized parameters: J_L, J₀₁, J₀₂, Rs, Rsh, n₂ (n₁ fixed to 1.0)
+- Multi-start optimization with 50 random initializations
+- Outputs all fitted parameters to console
+- Generates publication-quality J–V comparison plot
 
 ---
 
-## What This Code Does *Not* Do
+## What This Code Does Not Do
 
-- ❌ No Excel (`.xlsx`) output
-- ❌ No device area input
-- ❌ No Keithley-specific `.txt` or `.csv` parsing
-- ❌ No hidden preprocessing or black-box fitting
+❌ No Excel (.xlsx) output  
+❌ No device area input  
+❌ No Keithley-specific `.txt` or `.csv` parsing  
+❌ No hidden preprocessing or black-box fitting  
 
-This design choice ensures **full transparency and reproducibility**.
+This design choice ensures full transparency and reproducibility.
 
 ---
 
 ## Input File Format
 
-The code expects a plain text `.dat` file with **two columns**:
+Plain text `.dat` file, two columns (space or tab separated):
 
-Voltage(V) CurrentDensity(mA/cm^2)
+```
+-0.20    -9.53
+-0.10    -9.12
+ 0.00    -8.75
+ 0.50     3.10
+ 0.90    -5.20
+```
 
-Example:
-
-Voltage(V) CurrentDensity(mA/cm^2)
-
--0.20 -9.53
--0.10 -9.12
-0.00 -8.75
-0.50 3.10
-0.90 -5.20
-
-
-
-- Columns may be separated by spaces or tabs.
-- Lines starting with `#` or `%` are ignored.
+Lines starting with `#` or `%` are ignored.
 
 ---
 
 ## Model Parameters
 
-The physically constrained double-diode model includes:
+| Parameter | Description | Unit |
+|-----------|-------------|------|
+| J_L | Photogenerated current density | mA/cm² |
+| J₀₁ | Saturation current density — diode 1 (n₁=1, diffusion) | mA/cm² |
+| J₀₂ | Saturation current density — diode 2 (n₂, recombination) | mA/cm² |
+| Rs | Series resistance | Ω·cm² |
+| Rsh | Shunt resistance | Ω·cm² |
+| n₁ | Diffusion-diode ideality factor | — (fixed = 1.0) |
+| n₂ | Recombination-diode ideality factor | — (optimized, ≤ 10.0) |
 
-| Parameter | Description |
-|---------|-------------|
-| IL  | Photogenerated current density (mA/cm²) |
-| I01 | Saturation current density of diode 1 (mA/cm²) |
-| I02 | Saturation current density of diode 2 (mA/cm²) |
-| Rs  | Series resistance (Ω·cm²) |
-| Rsh | Shunt resistance (Ω·cm²) |
-| n1  | Ideality factor of diode 1 |
-| n2  | Ideality factor of diode 2 |
-
----
-
-## Methodology Overview
-
-1. **Classical DDM Initialization**  
-   An analytical double-diode formulation is used to obtain a physically meaningful initial parameter set.
-
-2. **Physically Constrained Refinement (PC-DDM)**  
-   All parameters are refined simultaneously using nonlinear least-squares optimization under explicit physical bounds.
-
-3. **Weighted Residuals**  
-   Additional emphasis is placed on the J–V knee region to ensure accurate reproduction of the full curve shape.
+**Note on J₀₁:** Once n₁ is fixed and transport/recombination losses are captured primarily through Rs, n₂, and J₀₂, J₀₁ becomes weakly identifiable. It is retained in the model for completeness but should not be interpreted as a precisely determined physical quantity.
 
 ---
 
 ## Usage
 
-Run the script directly:
-
 ```bash
-python Pc_ddm_opv_github_ready.py
+python PC_DDM_github_ready_v2.py
 ```
- Select a .dat file when prompted.
 
- Fitted parameters are printed to the terminal.
+- Select a `.dat` file when prompted
+- Fitted parameters are printed to the terminal
+- A J–V plot comparing measured data, RAI-DDM initialization, and PC-DDM fit is displayed
 
- A J–V plot comparing measured data, classical DDM, and PC-DDM is displayed.
+---
+
+## Output Plot
+
+The generated J–V figure shows:
+- **Measured J–V data** (open symbols)
+- **RAI-DDM fit** (analytical initialization only, no refinement)
+- **PC-DDM fit** (physically constrained refined result)
+
+The comparison illustrates how PC-DDM improves agreement with measured data particularly in the post-V_oc high-voltage region where transport-limited behaviour and non-ideal recombination dominate.
+
+---
 
 ## Intended Use
 
 This code is intended for:
+- Research on organic solar cells (OPVs)
+- Device physics analysis and parameter extraction
+- Methodological studies on double-diode model fitting
+- Supporting Information (SI) and reproducible research workflows
 
-Research on organic solar cells (OPVs) and perovskite solar cells
-
-Device physics analysis and parameter extraction
-
-Methodological studies on diode-model fitting
-
-Supporting information (SI) and reproducible research workflows
+---
 
 ## Author
 
-Koray Kara
-Physics / Device Modeling
-Organic & Perovskite Photovoltaics
+**Koray Kara**  
+Physics / Device Modeling  
+Organic Photovoltaics  
+İzmir Katip Çelebi University
 
-## License
-
-This project is provided for research and educational purposes.
-Please cite appropriately if used in academic work.
-
-## Example J–V Fit
-
-![Example J–V fit using PC-DDM](jv_fit_example.PNG)
-
-*Measured J–V data (red), classical double-diode model (green),
-and refined PC-DDM fit (black).*
-
+---
 
 ## How to Cite
 
-If you use this code in academic work, please cite:
+If you use this code in academic work, please cite the companion paper:
 
-K. Kara, *Physically Constrained Double-Diode Modeling for OPV and Perovskite Devices*, GitHub repository, 2025.
+> K. Kara, *Physically Constrained Double-Diode Modeling of Organic Solar Cells: Linking OFET Charge-Transport Fingerprints to Photovoltaic Loss Mechanisms*, Solar Energy Materials and Solar Cells (submitted, 2025).
 
+---
 
+## License
 
+This project is provided for research and educational purposes. Please cite appropriately if used in academic work.
